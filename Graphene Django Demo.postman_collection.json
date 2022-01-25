@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "14cc595b-e8b9-4551-b7d7-f4debc9d7788",
+		"name": "Graphene Django Demo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get All Users",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query getAllUsers {\r\n  # Get All Users\r\n  allUsers{\r\n    id  \r\n    username \r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query getUser($username: String) {\r\n  getUser(username: $username){\r\n    id  \r\n    username\r\n    slotSet{\r\n        id\r\n        startTime\r\n        slotInterval\r\n        isReserved\r\n    } \r\n  }\r\n}",
+						"variables": "{\r\n    \"username\": \"userali\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Slots",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query getAllSlots {\r\n  allSlots{\r\n    id  \r\n    slotInterval\r\n    startTime\r\n    createdBy {\r\n      id\r\n    }\r\n    appointmentSet {\r\n      id\r\n      clientName\r\n      clientEmail\r\n    }\r\n  }\r\n} ",
+						"variables": ""
+					},
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Appointments",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query getAllAppointments {\r\n  allAppointments{\r\n    slot {\r\n      id\r\n    }\r\n    user {\r\n      id\r\n    }\r\n    clientName\r\n    clientEmail\r\n  }  \r\n} ",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Slot",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXJvbmUiLCJleHAiOjE2NDMxMzYwMzIsIm9yaWdJYXQiOjE2NDMxMzU3MzJ9.SWJ4Lta4zr99EghD7Wz6zOVWFOIksBY0dAQt0e24llY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation createSlot($slotInterval: Int, $startTime: DateTime) {\r\n  createSlot(slotData: {\r\n    slotInterval: $slotInterval,\r\n    startTime: $startTime,\r\n  }){\r\n    slot{\r\n      startTime,\r\n      createdBy{\r\n        id\r\n      }\r\n    }\r\n }\r\n}",
+						"variables": "{\r\n    \"slotInterval\": 15,\r\n    \"startTime\": \"2022-01-29T18:34:40.140Z\"\r\n}"
+					},
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation CreateUser {\r\n  register(\r\n    email: \"userthree@mailinator.com\"\r\n    username: \"userthree\",\r\n    password1: \"password_12\",\r\n    password2: \"password_12\",\r\n  ) {\r\n    success,\r\n    errors,\r\n    token\r\n  }\r\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation TokenAuth($username: String!, $password: String!) {\r\n  tokenAuth(username: $username, password: $password) {\r\n    token\r\n  }\r\n}",
+						"variables": "{\n    \"username\": \"userone\",\n    \"password\": \"password_12\"\n}"
+					},
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Appointment",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation createAppointment($slot: Int, $clientName: String, $clientEmail: String) {\r\n  createAppointment(appointmentData: {\r\n    slot: $slot,\r\n    clientName: $clientName,\r\n    clientEmail: $clientEmail\r\n  }){\r\n    appointment{\r\n     clientEmail\r\n     clientName\r\n      slot{\r\n        id    \r\n      }\r\n    }\r\n }\r\n}",
+						"variables": "{\r\n    \"slot\": 5,\r\n    \"clientName\": \"jane doe\",\r\n    \"clientEmail\": \"janedoe@mailinator.com\"\r\n}"
+					},
+					"options": {
+						"raw": {
+							"language": "text"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Slot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXJvbmUiLCJleHAiOjE2NDMxNDEwMTMsIm9yaWdJYXQiOjE2NDMxMzc0MTN9.N0eIOJxr5QzsTa4hdrjOxuF-dbzKCp_R2b3Pqy2Iy5M",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation updateSlot($id: ID, $slotInterval: Int, $startTime: DateTime) {\r\n  updateSlot(slotData: {\r\n    id: $id,\r\n    slotInterval: $slotInterval,\r\n    startTime: $startTime\r\n  }) {\r\n    slot {\r\n      id\r\n      slotInterval  \r\n      startTime\r\n      createdBy {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+						"variables": "{\r\n    \"id\": 6,\r\n    \"slotInterval\": 45,\r\n    \"startTime\": \"2022-01-29T18:34:40.140Z\"\r\n}"
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Slot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "JWT eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXJvbmUiLCJleHAiOjE2NDMxMzExNzgsIm9yaWdJYXQiOjE2NDMxMzA4Nzh9.gD26OaQ44b8Xz9vXHG-JlOaFcNcMTGHBw1YHo9Fgf5U",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation deleteSlot {\r\n  deleteSlot(\r\n      id: 3) {\r\n    slot {\r\n      startTime\r\n      createdBy {\r\n        id\r\n      }\r\n    }\r\n  }\r\n}\r\n",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8010/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8010",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
